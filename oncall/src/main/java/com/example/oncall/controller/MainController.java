@@ -26,4 +26,9 @@ public class MainController {
 	public String loginForm() {
 		return "login";
 	}
+	
+	@GetMapping("/registForm")
+	public String registForm() {
+		return "regist";
+	}
 }
