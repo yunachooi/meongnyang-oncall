@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.oncall.dto.UserDto;
+import com.example.oncall.entity.Question;
 import com.example.oncall.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
@@ -46,4 +47,10 @@ public class UserController {
         session.invalidate();
         return "redirect:/";
     }
+	
+	@GetMapping("/write")
+	public String showWritePage(Model model) {
+	    model.addAttribute("counsel", new Question());
+	    return "write";
+	}
 }
