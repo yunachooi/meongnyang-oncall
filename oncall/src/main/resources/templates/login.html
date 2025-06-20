@@ -12,6 +12,7 @@
 </head>
 <body>
 	<div class="container">
+	<div th:replace="header :: mainHeader"></div>
 		<h2>로그인 페이지</h2>
 		<form action="/user/login" method="POST">
 			<input type="text" name="username" placeholder="username"><br>
