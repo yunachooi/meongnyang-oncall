@@ -20,5 +20,4 @@ public class User {
 	private String p_phone;
 	private String p_email;
 	private String p_role;
-	
 }
