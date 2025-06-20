@@ -11,16 +11,16 @@ CREATE TABLE tbl_veterinarian (
 CREATE TABLE tbl_protector (
     username VARCHAR2(100) PRIMARY KEY,
     password VARCHAR2(100),
-    name VARCHAR2(50),
-    phone VARCHAR2(13),
-    email VARCHAR2(100)
+    p_name VARCHAR2(50),
+    p_phone VARCHAR2(13),
+    p_email VARCHAR2(100)
 );
 
 CREATE TABLE tbl_animal (
-    a_no NUMBER PRIMARY KEY,
-    a_name VARCHAR2(50),
-    a_breed VARCHAR2(200),
-    a_birth DATE
+    ani_no NUMBER PRIMARY KEY,
+    ani_name VARCHAR2(50),
+    ani_breed VARCHAR2(200),
+    ani_birth DATE
 );
 
 CREATE TABLE tbl_question (
@@ -32,7 +32,7 @@ CREATE TABLE tbl_question (
     q_time DATE,
     q_status VARCHAR2(1),
     FOREIGN KEY (username) REFERENCES tbl_protector(username),
-    FOREIGN KEY (a_no) REFERENCES tbl_animal(a_no)
+    FOREIGN KEY (a_no) REFERENCES tbl_animal(ani_no)
 );
 
 CREATE TABLE tbl_answer (
