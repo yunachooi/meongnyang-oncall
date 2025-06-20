@@ -38,7 +38,6 @@ CREATE TABLE tbl_veterinarian (
 CREATE TABLE tbl_question (
     q_no        NUMBER,
     username    VARCHAR2(100),
-    a_no        NUMBER,
     q_title     VARCHAR2(2000),
     q_content   VARCHAR2(2000),
     q_time      DATE,
@@ -73,8 +72,8 @@ SELECT * FROM tbl_animal;
 DROP TABLE tbl_answer;
 DROP TABLE tbl_question;
 DROP TABLE tbl_animal;
-DROP TABLE tbl_oncall_user;
 DROP TABLE tbl_veterinarian;
+DROP TABLE tbl_oncall_user;
 
 COMMIT;
 
@@ -91,12 +90,12 @@ INSERT INTO tbl_oncall_user (username, password, p_name, p_phone, p_email, p_rol
 VALUES ('vet5', '1234', '정병원', '010-5555-5555', 'vet5@example.com', 'vets');
 
 INSERT INTO tbl_veterinarian (username, v_hospital, v_area, v_major, v_status) 
-VALUES ('vet1', '해피동물병원', '서울', '내과', 'Y');
+VALUES ('vet1', '해피동물병원', '서울', '고양이|내과', 'Y');
 INSERT INTO tbl_veterinarian (username, v_hospital, v_area, v_major, v_status) 
-VALUES ('vet2', '우리동물병원', '부산', '외과', 'N');
+VALUES ('vet2', '우리동물병원', '부산', '고양이|외과', 'N');
 INSERT INTO tbl_veterinarian (username, v_hospital, v_area, v_major, v_status) 
-VALUES ('vet3', '튼튼동물의료센터', '대구', '치과', 'Y');
+VALUES ('vet3', '튼튼동물의료센터', '대구', '고양이|강아지', 'Y');
 INSERT INTO tbl_veterinarian (username, v_hospital, v_area, v_major, v_status) 
-VALUES ('vet4', '건강동물병원', '인천', '영상의학과', 'Y');
+VALUES ('vet4', '건강동물병원', '인천', '파충류', 'Y');
 INSERT INTO tbl_veterinarian (username, v_hospital, v_area, v_major, v_status) 
-VALUES ('vet5', '사랑동물병원', '광주', '응급의학과', 'N');
+VALUES ('vet5', '사랑동물병원', '광주', '강아지', 'N');
