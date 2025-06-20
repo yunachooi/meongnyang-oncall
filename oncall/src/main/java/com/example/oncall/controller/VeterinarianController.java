@@ -13,21 +13,24 @@ import com.example.oncall.service.VeterinarianService;
 @Controller
 public class VeterinarianController {
 
-    
-	@Autowired
-	VeterinarianService veterinarianService;
+    @Autowired
+    private VeterinarianService veterinarianService;
 
-	@GetMapping("/counsel")
-	public String getCounsel() {
-		return "counsel";
-	}
-	
-	@PostMapping("/counsel")
-	public String counsel(@RequestParam("username") String username,Model model) {
-		System.out.println(username);
-		
-		model.addAttribute("veterinarians", veterinarianService.getVetByUsername(username));
-		
-		return "redirect:/counsel";
-	}
+    @GetMapping("/counsel")
+    public String getCounsel(Model model) {
+        model.addAttribute("vet", null);
+        return "counsel";
+    }
+
+    @PostMapping("/counsel")
+    public String counsel(@RequestParam("username") String username, Model model) {
+        System.out.println("요청 받은 수의사 username: " + username);
+
+        Veterinarian vet = veterinarianService.getVetByUsername(username)
+            .orElseThrow(() -> new RuntimeException("해당 수의사가 존재하지 않습니다."));
+
+        model.addAttribute("vet", vet);
+        
+        return "counsel";
+    }
 }
