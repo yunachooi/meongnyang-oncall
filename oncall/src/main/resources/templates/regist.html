@@ -5,27 +5,63 @@
 <title>Insert title here</title>
 <style>
 .container {
-    width: 600px;
-    margin: 0 auto;
+	width: 600px;
+	margin: 0 auto;
 }
-	
+
+form label {
+	display: block;
+	color: orange;
+	margin-top: 15px;
+	font-weight: bold;
+}
+
+input[type="text"], input[type="password"], input[type="email"] {
+	width: 100%;
+	padding: 8px;
+	margin-top: 5px;
+	box-sizing: border-box;
+	border-radius: 5px;
+	border: 1px solid orange;
+}
+
+input[type="submit"] {
+	background-color: orange;
+	color: white;
+	border: none;
+	border-radius: 20px;
+	padding: 10px 20px;
+	cursor: pointer;
+	font-weight: bold;
+	transition: background-color 0.3s ease;
+	margin-top: 20px;
+}
+
+input[type="submit"]:hover {
+	background-color: darkorange;
+}
+
 </style>
 </head>
 <body>
 	<div class="container">
-	<div th:replace="header :: mainHeader"></div>
+		<div th:replace="header :: mainHeader"></div>
 		<h2>회원가입</h2>
 		<form action="/user/regist" method="POST">
+			<label for="username">아이디</label>
 			<input type="text" name="username" placeholder="username"><br>
+			<label for="username">비밀번호</label>
 			<input type="text" name="password" placeholder="password"><br>
+			<label for="username">이름</label>
 			<input type="text" name="p_name" placeholder="name"><br>
+			<label for="username">전화번호</label>
 			<input type="text" name="p_phone" placeholder="phone"><br>
+			<label for="username">이메일</label>
 			<input type="text" name="p_email" placeholder="email"><br>
-			<input type="hidden" name="p_role" value="user">
-	
-			<input type="submit" value="제출">	
-				
+			<input type="hidden" name="p_role" value="user"> <input
+				type="submit" value="제출">
+
 		</form>
-	</div>	
+	</div>
 </body>
 </html>
