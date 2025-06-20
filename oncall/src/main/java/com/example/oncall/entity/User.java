@@ -1,5 +1,5 @@
 package com.example.oncall.entity;
 
-public class Protector {
+public class User {
 
 }

@@ -1,5 +1,8 @@
 package com.example.oncall.controller;
 
-public class VeterinarianController {
+import org.springframework.stereotype.Controller;
 
+@Controller
+public class VeterinarianController {
+	
 }
