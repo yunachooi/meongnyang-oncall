@@ -12,7 +12,7 @@
 .vet-card {
 	border: 2px solid orange;
 	padding: 1em;
-	width: 300px;
+	width: 100%;
 }
 
 .profile-img img {
@@ -23,6 +23,32 @@
 
 .vet-info {
 	margin-top: 10px;
+	
+	
+}
+.vet-card {
+	border: 2px solid orange;
+	border-radius: 15px;
+	padding: 20px;
+	margin-top: 20px;
+	display: flex;
+	align-items: center;
+}
+
+.profile-img {
+	width: 100px;
+	height: 100px;
+	border: 2px solid orange;
+	border-radius: 50%;
+	margin-right: 50px;
+	overflow: hidden;
+}
+
+.profile-img img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	border-radius: 50%;
 }
 </style>
 </head>
@@ -38,20 +64,43 @@
 					<img th:src="@{/images/{img}(img=${vet.username + '.jpg'})}"
 						alt="수의사 프로필">
 				</div>
+				
 				<div class="vet-info">
 					<!-- 수의사 이름 -->
 					<span th:text="${vet.user.p_name}">수의사 이름</span><b> 수의사</b><br>
-
 					<!-- 전공 -->
-					<span th:text="${vet.v_major}">전공</span>
+					<span th:text="${vet.v_major}">전공</span><br>
+					<!-- 한줄설명 -->
+					<span>필요한 순간, 언제나 함께하는 수의사가 되겠습니다.</span>
 				</div>
+				
 			</div>
 		</div>
-
+		<div>
+			<h3>상담게시판</h3>
+			<table border="1">
+				<thead>
+					<tr>
+						<th>번호</th><th>제목</th><th>작성자</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="qna : ${qna}">
+						<td th:text="${qna.q_no"></td><td th:text="${qna.q_title"></td><td th:text="${qna.username"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		
+		
 		<!-- vet이 없을 때 메시지 출력 -->
 		<div th:if="${vet == null}">
 			<p>수의사 정보가 없습니다.</p>
 		</div>
 	</div>
+	<script>
+		
+	</script>
 </body>
 </html>
