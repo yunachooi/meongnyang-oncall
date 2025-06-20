@@ -43,10 +43,4 @@ public class MainController {
     public String registForm() {
         return "regist";
     }
-
-    @GetMapping("/user/logout")
-    public String logout(HttpSession session) {
-        session.invalidate();
-        return "redirect:/";
-    }
 }
