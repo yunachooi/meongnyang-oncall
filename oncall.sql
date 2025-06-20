@@ -77,3 +77,26 @@ DROP TABLE tbl_oncall_user;
 DROP TABLE tbl_veterinarian;
 
 COMMIT;
+
+-- 더미데이터
+INSERT INTO tbl_oncall_user (username, password, p_name, p_phone, p_email, p_role) 
+VALUES ('vet1', '1234', '김수의', '010-1111-1111', 'vet1@example.com', 'vets');
+INSERT INTO tbl_oncall_user (username, password, p_name, p_phone, p_email, p_role) 
+VALUES ('vet2', '1234', '박동물', '010-2222-2222', 'vet2@example.com', 'vets');
+INSERT INTO tbl_oncall_user (username, password, p_name, p_phone, p_email, p_role) 
+VALUES ('vet3', '1234', '이강아', '010-3333-3333', 'vet3@example.com', 'vets');
+INSERT INTO tbl_oncall_user (username, password, p_name, p_phone, p_email, p_role) 
+VALUES ('vet4', '1234', '최고양', '010-4444-4444', 'vet4@example.com', 'vets');
+INSERT INTO tbl_oncall_user (username, password, p_name, p_phone, p_email, p_role) 
+VALUES ('vet5', '1234', '정병원', '010-5555-5555', 'vet5@example.com', 'vets');
+
+INSERT INTO tbl_veterinarian (username, v_hospital, v_area, v_major, v_status) 
+VALUES ('vet1', '해피동물병원', '서울', '내과', 'Y');
+INSERT INTO tbl_veterinarian (username, v_hospital, v_area, v_major, v_status) 
+VALUES ('vet2', '우리동물병원', '부산', '외과', 'N');
+INSERT INTO tbl_veterinarian (username, v_hospital, v_area, v_major, v_status) 
+VALUES ('vet3', '튼튼동물의료센터', '대구', '치과', 'Y');
+INSERT INTO tbl_veterinarian (username, v_hospital, v_area, v_major, v_status) 
+VALUES ('vet4', '건강동물병원', '인천', '영상의학과', 'Y');
+INSERT INTO tbl_veterinarian (username, v_hospital, v_area, v_major, v_status) 
+VALUES ('vet5', '사랑동물병원', '광주', '응급의학과', 'N');

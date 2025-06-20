@@ -20,9 +20,9 @@ public class Veterinarian {
     @Column(length = 100)
     private String username;
 
-    @OneToOne
-    @JoinColumn(name = "username", referencedColumnName = "username", insertable = false, updatable = false)
-    private User user; 
+//    @OneToOne
+//    @JoinColumn(name = "username", referencedColumnName = "username", insertable = false, updatable = false)
+//    private User user; 
 
     @Column(length = 100)
     private String v_hospital;

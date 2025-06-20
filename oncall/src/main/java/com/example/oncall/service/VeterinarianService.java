@@ -14,7 +14,6 @@ public class VeterinarianService {
 	VeterinarianRepository veterinarianRepository;
 	
 	public List<Veterinarian> getAllVet() {
-		List<Veterinarian> list = veterinarianRepository.findAll();
-		return list;
+	    return veterinarianRepository.findAll();
 	}
 }
