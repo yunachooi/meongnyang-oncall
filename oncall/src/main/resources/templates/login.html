@@ -8,20 +8,75 @@
 	width: 600px;
 	margin: 0 auto;
 }
+
+button {
+	background-color: orange;
+	color: white;
+	border: none;
+	border-radius: 20px;
+	padding: 10px 20px;
+	cursor: pointer;
+	font-weight: bold;
+	transition: background-color 0.3s ease;
+}
+
+button:hover {
+	background-color: darkorange;
+}
+
+input[type="submit"] {
+	background-color: orange;
+	color: white;
+	border: none;
+	border-radius: 20px;
+	padding: 10px 20px;
+	cursor: pointer;
+	font-weight: bold;
+	transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+	background-color: darkorange;
+}
+
+form label {
+	display: block;
+	color: orange;
+	margin-top: 15px;
+	font-weight: bold;
+}
+
+input[type="text"], input[type="password"] {
+	width: 100%;
+	padding: 8px;
+	margin-top: 5px;
+	box-sizing: border-box;
+	border-radius: 5px;
+	border: 1px solid orange;
+}
+
+.box{
+	margin: 10px;
+}
 </style>
 </head>
 <body>
 	<div class="container">
-	<div th:replace="header :: mainHeader"></div>
+		<div th:replace="header :: mainHeader"></div>
 		<h2>로그인 페이지</h2>
 		<form action="/user/login" method="POST">
-			<input type="text" name="username" placeholder="username"><br>
-			<input type="password" name="password" placeholder="password"><br>
-			<input type="submit" value="로그인">
-			<button type="button" onclick="registForm()">회원가입</button>
+			<label for="username">아이디</label>
+			<input type="text" id="username" name="username" placeholder="username">
+
+			<label for="password">비밀번호</label>
+			<input type="password" id="password" name="password" placeholder="password">
+			
+			<div class="box">
+				<input type="submit" value="로그인">
+				<button type="button" onclick="registForm()">회원가입</button>
+			</div>
 		</form>
 	</div>
-
 
 	<script>
 		function registForm() {

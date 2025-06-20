@@ -1,5 +1,8 @@
 package com.example.oncall.service;
 
-public class QuestionService {
+import org.springframework.stereotype.Service;
 
+@Service
+public class QuestionService {
+	
 }

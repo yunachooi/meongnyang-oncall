@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.oncall.dto.UserDto;
 import com.example.oncall.entity.Question;
+import com.example.oncall.service.QuestionService;
 import com.example.oncall.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
@@ -19,6 +20,8 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private QuestionService questionService;
 
 	@PostMapping("/login")
 	public String login(UserDto userDto, Model model, HttpSession session) {
