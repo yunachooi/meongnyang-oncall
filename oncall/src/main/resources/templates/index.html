@@ -6,7 +6,7 @@
 <style>
 .container {
 	width: 600px;
-    margin: 0 auto;
+	margin: 0 auto;
 }
 
 .vet-card {
@@ -43,82 +43,72 @@
 	font-size: 14px;
 }
 
-.unavailable{
+.unavailable {
 	color: red;
-    font-weight: bold;
+	font-weight: bold;
 }
 
-.available{
+.available {
 	color: green;
 	font-weight: bold;
 }
 
 button {
-    background-color: orange;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
+	background-color: orange;
+	color: white;
+	border: none;
+	border-radius: 20px;
+	padding: 10px 20px;
+	cursor: pointer;
+	font-weight: bold;
+	transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: darkorange;
+	background-color: darkorange;
 }
 
 .counsel {
-    margin-left: auto;
-    margin-right: 10px;
+	margin-left: auto;
+	margin-right: 10px;
 }
-
 </style>
 </head>
 <body>
 	<div class="container">
 		<div th:replace="header :: mainHeader"></div>
+
+		<!-- 숨겨진 form은 여기, container 바로 안에 1개만 -->
+		<form id="counselForm" action="/counsel" method="post"
+			style="display: none;">
+			<input type="hidden" name="username" id="usernameInput">
+		</form>
+
 		<!-- 수의사 목록 -->
 		<div th:each="vet : ${veterinarians}" class="vet-card">
 			<div class="profile-img">
-				<img th:src="@{/images/{img}(img=${vet.username + '.jpg'})}" alt="수의사 프로필">
+				<img th:src="@{/images/{img}(img=${vet.username + '.jpg'})}"
+					alt="수의사 프로필">
 			</div>
 			<div class="vet-info">
-				<!-- 수의사 이름 -->
 				<span th:text="${vet.user.p_name}">수의사 이름</span><b> 수의사</b><br>
-	
-				<!-- 전공, 지역, 병원 -->
-				#<span th:text="${vet.v_major}">전공</span>
-				#<span th:text="${vet.v_area}">지역</span>
-				#<span th:text="${vet.v_hospital}">근무처</span><br>
-	
-				<!-- 상태 -->
-				<span th:if="${vet.v_status == 'Y'}" th:classappend="available">10분 이내 상담 가능</span>
-				<span th:if="${vet.v_status != 'Y'}" th:classappend="unavailable">현재 상담 불가능</span>
+				#<span th:text="${vet.v_major}">전공</span> #<span
+					th:text="${vet.v_area}">지역</span> #<span
+					th:text="${vet.v_hospital}">근무처</span><br> <span
+					th:if="${vet.v_status == 'Y'}" th:classappend="available">10분
+					이내 상담 가능</span> <span th:if="${vet.v_status != 'Y'}"
+					th:classappend="unavailable">현재 상담 불가능</span>
 			</div>
 			<div class="counsel">
-				<button th:attr="onclick=|counsel('${vet.username}')|">상담하기</button>
+				<button type="button" th:attr="onclick=|counsel('${vet.username}')|">상담하기</button>
 			</div>
 		</div>
 	</div>
-	
+
 	<script>
 		function counsel(username) {
-			const formData = new URLSearchParams();
-			formData.append('username', username);
-	
-			fetch('/counsel', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/x-www-form-urlencoded'
-				},
-				body: formData.toString()
-			})
-			.then(response => {
-				if (response.redirected) {
-					window.location.href = response.url;
-				}
-			});
+			document.getElementById('usernameInput').value = username;
+			document.getElementById('counselForm').submit();
 		}
 	</script>
 </body>
