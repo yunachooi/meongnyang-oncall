@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.oncall.entity.Veterinarian;
 
-public interface VeterinarianRepository extends JpaRepository<Veterinarian, Integer> {
+public interface VeterinarianRepository extends JpaRepository<Veterinarian, String> {
 
 }
