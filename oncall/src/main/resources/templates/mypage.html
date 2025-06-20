@@ -25,8 +25,8 @@
 		<div th:replace="header :: mainHeader"></div>
 		<!-- body -->
 		<div class="vet-card">
-			<a href="#" onclick="userMamagement()">회원정보관리</a> |
-			<a href="">반려동물관리</a>
+			<a href="" onclick="userManagement()">회원정보관리</a> |
+			<a href="" onclick="animalManagement()">반려동물관리</a>
 			
 		</div>
 		<div id="content"></div>
@@ -37,7 +37,9 @@
 		function userMamagement(){
 			fetch('')
 			.then(response => response.json())
-			.then(data)
+			.then(data => {
+				
+			})
 			.catch(err =>{
 				alert(err);
 			});
