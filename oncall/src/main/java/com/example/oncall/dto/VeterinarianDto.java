@@ -9,4 +9,5 @@ public class VeterinarianDto {
 	private String v_area;
 	private String v_major;
 	private String v_status;
+	private String p_name;
 }
