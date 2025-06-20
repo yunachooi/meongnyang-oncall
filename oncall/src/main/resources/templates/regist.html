@@ -13,6 +13,7 @@
 </head>
 <body>
 	<div class="container">
+	<div th:replace="header :: mainHeader"></div>
 		<h2>회원가입</h2>
 		<form action="/user/regist" method="POST">
 			<input type="text" name="username" placeholder="username"><br>

@@ -4,44 +4,54 @@
 <meta charset="UTF-8">
 <title>수의사 상세 페이지</title>
 <style>
-    .vet-card {
-        border: 2px solid orange;
-        padding: 1em;
-        width: 300px;
-    }
-    .profile-img img {
-        width: 50%;
-        height: auto;
-        border-radius: 50%;
-    }
-    .vet-info {
-        margin-top: 10px;
-    }
+.container {
+	width: 600px;
+	margin: 0 auto;
+}
+
+.vet-card {
+	border: 2px solid orange;
+	padding: 1em;
+	width: 300px;
+}
+
+.profile-img img {
+	width: 50%;
+	height: auto;
+	border-radius: 50%;
+}
+
+.vet-info {
+	margin-top: 10px;
+}
 </style>
 </head>
 <body>
-	<h2>상세 페이지</h2>
+	<div class="container">
+		<div th:replace="header :: mainHeader"></div>
+		<h2>상세 페이지</h2>
 
-	<!-- vet이 존재할 때만 렌더링 -->
-	<div th:if="${vet != null}">
-		<div class="vet-card">
-			<div class="profile-img">
-				<img th:src="@{/images/{img}(img=${vet.username + '.jpg'})}" alt="수의사 프로필">
-			</div>
-			<div class="vet-info">
-				<!-- 수의사 이름 -->
-				<span th:text="${vet.user.p_name}">수의사 이름</span><b> 수의사</b><br>
+		<!-- vet이 존재할 때만 렌더링 -->
+		<div th:if="${vet != null}">
+			<div class="vet-card">
+				<div class="profile-img">
+					<img th:src="@{/images/{img}(img=${vet.username + '.jpg'})}"
+						alt="수의사 프로필">
+				</div>
+				<div class="vet-info">
+					<!-- 수의사 이름 -->
+					<span th:text="${vet.user.p_name}">수의사 이름</span><b> 수의사</b><br>
 
-				<!-- 전공 -->
-				<span th:text="${vet.v_major}">전공</span>
+					<!-- 전공 -->
+					<span th:text="${vet.v_major}">전공</span>
+				</div>
 			</div>
 		</div>
-	</div>
 
-	<!-- vet이 없을 때 메시지 출력 -->
-	<div th:if="${vet == null}">
-		<p>수의사 정보가 없습니다.</p>
+		<!-- vet이 없을 때 메시지 출력 -->
+		<div th:if="${vet == null}">
+			<p>수의사 정보가 없습니다.</p>
+		</div>
 	</div>
-
 </body>
 </html>
