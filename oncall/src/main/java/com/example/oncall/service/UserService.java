@@ -11,16 +11,34 @@ import com.example.oncall.repository.UserRepository;
 public class UserService {
 	@Autowired
 	UserRepository userRepository;
-
-	public Boolean loginCheck(UserDto userDto) {
-		System.out.println("로그인 체크: " + userDto.getUsername() + ", " + userDto.getPassword());
+	
+	private User convert(UserDto userDto) {
 		User user = new User();
-		user = userRepository.findByUsername(userDto.getUsername());
-		System.out.println("유저정보: " + user);
-		if (user != null && user.getPassword().equals(userDto.getPassword())) {
-			System.out.println("로그인 성공!");
+		user.setUsername(userDto.getUsername());
+		user.setPassword(userDto.getPassword());
+		user.setP_name(userDto.getP_name());
+		user.setP_phone(userDto.getP_phone());
+		user.setP_email(userDto.getP_email());
+		user.setP_role(userDto.getP_role());
+
+		return user;
+	}
+
+
+	public boolean loginCheck(UserDto userDto) {
+		User user = userRepository.findByUsername(userDto.getUsername());
+		return user != null && user.getPassword().equals(userDto.getPassword());
+	}
+	
+
+	public boolean registUser(UserDto userDto) {
+		try {
+			User user = convert(userDto);
+			userRepository.save(user);
 			return true;
+		} catch (Exception e) {
+			// 로깅 등 처리 가능
+			return false;
 		}
-		return false;
 	}
 }

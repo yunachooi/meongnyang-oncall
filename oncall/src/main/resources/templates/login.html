@@ -3,14 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+.container {
+	width: 600px;
+	margin: 0 auto;
+}
+</style>
 </head>
 <body>
-	<h2>로그인 페이지</h2>
-	<form action="" method="POST">
-		<input type="text" name = "username" placeholder="username"><br>
-		<input type="password" name = "password" placeholder="password"><br>
-		<input type="submit" value="로그인">
-		<button type="button" onclick="">회원가입</button>
-	</form>
+	<div class="container">
+		<h2>로그인 페이지</h2>
+		<form action="/user/login" method="POST">
+			<input type="text" name="username" placeholder="username"><br>
+			<input type="password" name="password" placeholder="password"><br>
+			<input type="submit" value="로그인">
+			<button type="button" onclick="registForm()">회원가입</button>
+		</form>
+	</div>
+
+
+	<script>
+		function registForm() {
+			location.href = "/registForm"
+		}
+	</script>
 </body>
 </html>
