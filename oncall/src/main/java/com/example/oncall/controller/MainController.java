@@ -28,7 +28,7 @@ public class MainController {
 	public String loginForm() {
 		return "login";
 	}
-	
+  
 	@GetMapping("/mypage")
     public String myPage(HttpSession session, Model model) {
         Object loginInfo = session.getAttribute("loginInfo");
