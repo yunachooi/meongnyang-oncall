@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.zodiacSign.dto.SignDto;
-import com.example.zodiacSign.entiry.Sign;
+import com.example.zodiacSign.entity.Sign;
 import com.example.zodiacSign.repository.SignRepository;
 
 @Controller

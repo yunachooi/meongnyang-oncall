@@ -3,7 +3,7 @@ package com.example.zodiacSign.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.example.zodiacSign.dto.SignDto;
-import com.example.zodiacSign.entiry.Sign;
+import com.example.zodiacSign.entity.Sign;
 import com.example.zodiacSign.repository.SignRepository;
 
 import java.util.List;

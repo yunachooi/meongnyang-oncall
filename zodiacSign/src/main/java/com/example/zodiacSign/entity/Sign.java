@@ -1,4 +1,4 @@
-package com.example.zodiacSign.entiry;
+package com.example.zodiacSign.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
