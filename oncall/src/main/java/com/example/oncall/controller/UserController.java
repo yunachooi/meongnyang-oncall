@@ -4,9 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.oncall.dto.QuestionDto;
 import com.example.oncall.dto.UserDto;
 import com.example.oncall.entity.Question;
 import com.example.oncall.service.QuestionService;
@@ -52,8 +55,17 @@ public class UserController {
     }
 	
 	@GetMapping("/write")
-	public String showWritePage(Model model) {
+	public String showWritePage(@RequestParam(value = "vetUsername", required = false) String vetUsername, Model model) {
 	    model.addAttribute("counsel", new Question());
+	    model.addAttribute("vetUsername", vetUsername);
 	    return "write";
 	}
+	
+	@PostMapping("/register")
+	public String register(@ModelAttribute QuestionDto questionDto) {
+	    Question question = questionDto.toEntity();
+	    questionService.save(question);
+	    return "redirect:/";
+	}
+
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.example.oncall.entity.Question;
 import com.example.oncall.entity.Veterinarian;
 import com.example.oncall.service.VeterinarianService;
 

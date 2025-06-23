@@ -1,106 +1,219 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>수의사 상세 페이지</title>
+<meta charset="UTF-8" />
+<title>수의사 상세 페이지 - 상담 게시판</title>
 <style>
+/* 스타일은 이전과 동일 */
 .container {
-	width: 600px;
-	margin: 0 auto;
-}
-
-.vet-card {
-	border: 2px solid orange;
-	padding: 1em;
-	width: 100%;
-}
-
-.profile-img img {
-	width: 50%;
-	height: auto;
-	border-radius: 50%;
-}
-
-.vet-info {
-	margin-top: 10px;
-	
-	
+  width: 600px;
+  margin: 0 auto;
 }
 .vet-card {
-	border: 2px solid orange;
-	border-radius: 15px;
-	padding: 20px;
-	margin-top: 20px;
-	display: flex;
-	align-items: center;
+  border: 2px solid orange;
+  border-radius: 15px;
+  padding: 20px;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
 }
-
 .profile-img {
-	width: 100px;
-	height: 100px;
-	border: 2px solid orange;
-	border-radius: 50%;
-	margin-right: 50px;
-	overflow: hidden;
+  width: 100px;
+  height: 100px;
+  border: 2px solid orange;
+  border-radius: 50%;
+  margin-right: 50px;
+  overflow: hidden;
 }
-
 .profile-img img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+table thead tr {
+  background-color: orange;
+  color: white;
+}
+table th, table td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+table tbody tr:hover {
+  background-color: #ffe6cc;
+}
+.btn-inquiry {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 25px;
+  background-color: orange;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 25px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+.btn-inquiry:hover {
+  background-color: #cc7a00;
+  color: #fff;
+}
+#detailArea {
+  margin-top: 30px;
+  border-radius: 15px;
+  border: 2px solid orange;
+  padding: 15px;
+  display: none;
+}
+#detailTable, #commentTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+#detailTable th, #detailTable td, #commentTable th, #commentTable td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+#detailTable thead tr, #commentTable thead tr {
+  background-color: orange;
+  color: white;
 }
 </style>
 </head>
 <body>
-	<div class="container">
-		<div th:replace="header :: mainHeader"></div>
-		<h2>상세 페이지</h2>
+  <div class="container">
+    <div th:replace="header :: mainHeader"></div>
 
-		<!-- vet이 존재할 때만 렌더링 -->
-		<div th:if="${vet != null}">
-			<div class="vet-card">
-				<div class="profile-img">
-					<img th:src="@{/images/{img}(img=${vet.username + '.jpg'})}"
-						alt="수의사 프로필">
-				</div>
-				
-				<div class="vet-info">
-					<!-- 수의사 이름 -->
-					<span th:text="${vet.user.p_name}">수의사 이름</span><b> 수의사</b><br>
-					<!-- 전공 -->
-					<span th:text="${vet.v_major}">전공</span><br>
-					<!-- 한줄설명 -->
-					<span>필요한 순간, 언제나 함께하는 수의사가 되겠습니다.</span>
-				</div>
-				
-			</div>
-		</div>
-		<div>
-			<h3>상담게시판</h3>
-			<table border="1">
-				<thead>
-					<tr>
-						<th>번호</th><th>제목</th><th>작성자</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="qna : ${qna}">
-						<td th:text="${qna.q_no"></td><td th:text="${qna.q_title"></td><td th:text="${qna.username"></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		
-		
-		
-		<!-- vet이 없을 때 메시지 출력 -->
-		<div th:if="${vet == null}">
-			<p>수의사 정보가 없습니다.</p>
-		</div>
-	</div>
-	<script>
-		
-	</script>
+    <h2>상담 게시판</h2>
+    <!-- 로그인 세션(loginInfo.username)이 null이 아니면 문의하기 버튼 노출 -->
+    <div style="text-align: right;" th:if="${session.loginInfo != null and session.loginInfo.username != null}">
+      <a th:href="@{'/user/write'(vetUsername=${vet.username})}" class="btn-inquiry">문의하기</a>
+    </div>
+
+    <div th:if="${vet != null}">
+      <div class="vet-card">
+        <div class="profile-img">
+          <img th:src="@{/images/{img}(img=${vet.username + '.jpg'})}" alt="수의사 프로필" />
+        </div>
+        <div class="vet-info">
+          <b th:text="${vet.user.p_name}">수의사 이름</b> 수의사<br />
+          <b>진료과목 : </b><span th:text="${vet.v_major}">전공</span><br />
+          <b>동물병원 : </b><span th:text="${vet.v_hospital}">동물병원</span>(<span th:text="${vet.v_area}">지역</span>)<br />
+          <b>필요한 순간, 언제나 함께하는 수의사가 되겠습니다.</b>
+        </div>
+      </div>
+    </div>
+
+    <div class="vet-card">
+      <table>
+        <thead>
+          <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="q,iterStat : ${qna}"
+              th:data-qno="${q.q_no}"
+              th:data-qtitle="${q.q_title}"
+              th:data-qcontent="${q.q_content}"
+              th:data-qtime="${#dates.format(q.q_time, 'yyyy-MM-dd HH:mm:ss')}">
+            <td th:text="${iterStat.index + 1}"></td>
+            <td style="cursor:pointer; color:blue; text-decoration: underline;"
+                th:text="${q.q_title}"
+                onclick="showDetail(this)"></td>
+            <td th:text="${q.username}"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="detailArea">
+      <h3>상세 내용</h3>
+      <table id="detailTable">
+        <tbody>
+          <tr>
+            <th style="width: 80px;">제목</th>
+            <td id="detailTitle"></td>
+          </tr>
+          <tr>
+            <th>등록일</th>
+            <td id="detailTime"></td>
+          </tr>
+          <tr>
+            <th>내용</th>
+            <td id="detailContent" style="white-space: pre-wrap;"></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>댓글</h3>
+      <table id="commentTable">
+        <thead>
+          <tr>
+            <th>댓글번호</th>
+            <th>작성자</th>
+            <th>댓글내용</th>
+            <th>작성일</th>
+          </tr>
+        </thead>
+        <tbody id="commentBody">
+          <tr><td colspan="4" style="text-align:center;">댓글이 없습니다.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const comments = /*[[${commentsJson}]]*/ '[]';
+
+    const commentsData = JSON.parse(comments);
+
+    function showDetail(td) {
+      const tr = td.parentElement;
+      const qNo = tr.getAttribute('data-qno');
+      const qTitle = tr.getAttribute('data-qtitle');
+      const qContent = tr.getAttribute('data-qcontent');
+      const qTime = tr.getAttribute('data-qtime');
+
+      document.getElementById('detailArea').style.display = 'block';
+      document.getElementById('detailTitle').innerText = qTitle;
+      document.getElementById('detailContent').innerText = qContent;
+      document.getElementById('detailTime').innerText = qTime;
+
+      const commentBody = document.getElementById('commentBody');
+      commentBody.innerHTML = '';
+
+      const qComments = commentsData.find(c => c.q_no == qNo)?.comments || [];
+
+      if(qComments.length === 0) {
+        commentBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">댓글이 없습니다.</td></tr>';
+        return;
+      }
+
+      qComments.forEach(comment => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${comment.id}</td>
+          <td>${comment.username}</td>
+          <td>${comment.content}</td>
+          <td>${comment.date}</td>
+        `;
+        commentBody.appendChild(tr);
+      });
+    }
+  </script>
 </body>
 </html>
