@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>별자리 찾기 - 관리자</title>
+</head>
+<body>
+  <div th:replace="menu :: mainHeader"></div>
+
+  <div class="container">
+    <div>
+      <h2>관리자 페이지</h2>
+    </div>
+    <div class="msg" id="msgArea">
+      <p th:if="${success}" style="color: green;">작업이 완료되었습니다.</p>
+    </div>
+  </div>
+
+  <script>
+    function main() {
+      location.href = "/";
+    }
+
+    function inquiry() {
+      const msg = document.getElementById("msgArea");
+      msg.innerHTML = "데이터를 불러오는 중입니다...";
+
+      fetch('/admin/list')
+        .then(response => {
+          if (!response.ok) throw new Error("네트워크 오류");
+          return response.json();
+        })
+        .then(data => {
+          if (!data || data.length === 0) {
+            msg.innerHTML = "<p>데이터가 없습니다.</p>";
+            return;
+          }
+
+          let html = `<table border="1">
+            <thead>
+              <tr>
+                <th>NO.</th>
+                <th>이름</th>
+                <th>시작월</th>
+                <th>시작일</th>
+                <th>종료월</th>
+                <th>종료일</th>
+                <th>수정</th>
+                <th>삭제</th>
+              </tr>
+            </thead>
+            <tbody>`;
+
+          data.forEach(item => {
+            html += `<tr>
+              <td>${item.s_no}</td>
+              <td>${item.s_name}</td>
+              <td>${item.start_month}월</td>
+              <td>${item.start_day}일</td>
+              <td>${item.end_month}월</td>
+              <td>${item.end_day}일</td>
+              <td><button onclick="modify(${item.s_no})">수정</button></td>
+              <td><button onclick="remove(${item.s_no})">삭제</button></td>
+            </tr>`;
+          });
+
+          html += `</tbody></table>`;
+          msg.innerHTML = html;
+        })
+        .catch(error => {
+          msg.innerHTML = `<p style="color:red;">데이터 로드 실패: ${error.message}</p>`;
+        });
+    }
+
+    function remove(s_no) {
+      if (confirm("정말 삭제하시겠습니까?")) {
+        fetch(`/admin/delete/${s_no}`, {
+          method: 'DELETE'
+        })
+        .then(response => {
+          if (!response.ok) throw new Error("삭제 실패");
+          alert("삭제되었습니다.");
+          inquiry();
+        })
+        .catch(error => {
+          alert("오류 발생: " + error.message);
+        });
+      }
+    }
+
+    function modify(s_no) {
+      fetch(`/admin/get/${s_no}`)
+        .then(response => {
+          if (!response.ok) throw new Error("수정 정보를 불러올 수 없습니다.");
+          return response.json();
+        })
+        .then(sign => {
+          regist(sign);
+        })
+        .catch(error => {
+          alert("오류: " + error.message);
+        });
+    }
+
+    function regist(sign = null) {
+      const msg = document.getElementById("msgArea");
+
+      msg.innerHTML = `
+        <form id="signForm" method="post">
+          ${sign ? `<input type="hidden" name="s_no" value="${sign.s_no}">` : ''}
+
+          <label>별자리 이름</label>
+          <input type="text" name="s_name" placeholder="Input name..." value="${sign ? sign.s_name : ''}"><br />
+
+          <label>시작일</label>
+          <select id="start_month" name="start_month"></select>
+          <select id="start_day" name="start_day"></select><br />
+
+          <label>종료일</label>
+          <select id="end_month" name="end_month"></select>
+          <select id="end_day" name="end_day"></select><br />
+
+          <label>정보</label>
+          <textarea name="s_info" placeholder="Input info...">${sign ? sign.s_info : ''}</textarea><br />
+
+          <input type="submit" value="${sign ? '수정하기' : '등록하기'}">
+        </form>
+      `;
+
+      generateMonthOptions('start_month');
+      generateMonthOptions('end_month');
+      updateDays('start_month', 'start_day');
+      updateDays('end_month', 'end_day');
+
+      if (sign) {
+        document.getElementById('start_month').value = sign.start_month;
+        updateDays('start_month', 'start_day');
+        document.getElementById('start_day').value = sign.start_day;
+
+        document.getElementById('end_month').value = sign.end_month;
+        updateDays('end_month', 'end_day');
+        document.getElementById('end_day').value = sign.end_day;
+
+        document.getElementById('signForm').action = '/admin/update';
+      } else {
+        document.getElementById('signForm').action = '/admin/regist';
+      }
+
+      document.getElementById('start_month').addEventListener('change', () => {
+        updateDays('start_month', 'start_day');
+      });
+      document.getElementById('end_month').addEventListener('change', () => {
+        updateDays('end_month', 'end_day');
+      });
+    }
+
+    function generateMonthOptions(selectId) {
+      const select = document.getElementById(selectId);
+      select.innerHTML = "";
+      for (let i = 1; i <= 12; i++) {
+        const option = document.createElement("option");
+        option.value = i;
+        option.textContent = `${i}월`;
+        select.appendChild(option);
+      }
+    }
+
+    function updateDays(monthSelectId, daySelectId) {
+      const month = parseInt(document.getElementById(monthSelectId).value);
+      const daySelect = document.getElementById(daySelectId);
+      const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+      const maxDays = daysInMonth[month - 1];
+
+      daySelect.innerHTML = "";
+      for (let i = 1; i <= maxDays; i++) {
+        const option = document.createElement("option");
+        option.value = i;
+        option.textContent = `${i}일`;
+        daySelect.appendChild(option);
+      }
+    }
+  </script>
+</body>
+</html>
