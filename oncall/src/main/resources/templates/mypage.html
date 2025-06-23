@@ -6,92 +6,117 @@
 <style>
 .container {
 	width: 600px;
-    margin: 0 auto;
+	margin: 0 auto;
 }
+
 .vet-card {
 	border: 2px solid orange;
 	border-radius: 15px;
 	padding: 20px;
 	margin-top: 20px;
-	display: flex;
-	align-items: center;
 }
 
+button, input[type="submit"] {
+	background-color: orange;
+	color: white;
+	border: none;
+	border-radius: 20px;
+	padding: 10px 20px;
+	cursor: pointer;
+	font-weight: bold;
+	transition: background-color 0.3s ease;
+}
+
+button:hover, input[type="submit"]:hover {
+	background-color: darkorange;
+}
+
+form label {
+	display: block;
+	color: orange;
+	margin-top: 15px;
+	font-weight: bold;
+}
+
+input[type="text"], input[type="password"], input[type="email"], input[type="tel"]
+	{
+	width: 100%;
+	padding: 8px;
+	margin-top: 5px;
+	box-sizing: border-box;
+	border-radius: 5px;
+	border: 1px solid orange;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 10px;
+}
+
+td {
+	padding: 8px;
+}
+
+.box {
+	margin-top: 15px;
+}
 </style>
 </head>
 <body>
 	<div class="container">
 		<!-- header -->
 		<div th:replace="header :: mainHeader"></div>
-		<!-- body -->
+
+		<!-- 회원정보 수정 -->
 		<div class="vet-card">
-			<a href="" onclick="loadUserData()">회원정보관리</a> |
-			<a href="" onclick="animalManagement()">반려동물관리</a>
+			<h2>회원정보 수정</h2>
+			<form action="/user/update" method="POST">
+				<table>
+					<tr>
+						<td><label for="username">아이디</label></td>
+						<td><input type="text" id="username" name="username"
+							th:value="${user.username}" readonly></td>
+					</tr>
+					<tr>
+						<td><label for="password">비밀번호</label></td>
+						<td><input type="password" id="password" name="password"
+							th:value="${user.password}" required></td>
+					</tr>
+					<tr>
+						<td><label for="p_name">이름</label></td>
+						<td><input type="text" id="p_name" name="p_name"
+							th:value="${user.p_name}" required></td>
+					</tr>
+					<tr>
+						<td><label for="p_phone">전화번호</label></td>
+						<td><input type="tel" id="p_phone" name="p_phone"
+							th:value="${user.p_phone}" required></td>
+					</tr>
+					<tr>
+						<td><label for="p_email">이메일</label></td>
+						<td><input type="email" id="p_email" name="p_email"
+							th:value="${user.p_email}" required></td>
+					</tr>
+				</table>
+				<div class="box">
+					<input type="submit" value="수정하기">
+				</div>
+			</form>
+
 		</div>
-		<div id="content"></div>
-		<div onclick="requestRoll()">수의사 신청하기</div>
-		<form action="/user/requestRoll" method="POST">
-			<input type="text" name="lisenceNum" placeholder="면허 번호 입력"><br>
-			<input type="submit" value="신청">
-		</form>
+
+		<!-- 수의사 신청 -->
+		<div class="vet-card">
+			<h2>수의사 신청하기</h2>
+			<form action="/user/requestRoll" method="POST">
+				<label for="lisenceNum">면허 번호</label> <input type="text"
+					name="lisenceNum" id="lisenceNum" placeholder="면허 번호 입력" required>
+				<div class="box">
+					<input type="submit" value="신청">
+				</div>
+			</form>
+		</div>
 	</div>
-	
-	<script>
-	function requestroll(){
-		const content = document.getElementById("content");
-		
-		
-	}	
-		
-	function loadUserData() {
-	    const container = document.getElementById("content");
-
-	    fetch('/user/getUserData')
-	        .then(response => {
-	            if (!response.ok) {
-	                return response.text().then(msg => { throw new Error(msg); });
-	            }
-	            return response.json();
-	        })
-	        .then(data => {
-	            console.log("받은 데이터:", data);
-
-	            // 테이블 생성
-	            const tableHTML = `
-	                <table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse;">
-	                    <thead>
-	                        <tr>
-	                            <th>아이디</th>
-	                            <th>이름</th>
-	                           
-	                        </tr>
-	                    </thead>
-	                    <tbody>
-	                        <tr>
-	                            <td>\${data.username}</td>
-	                            <td>\${data.name}</td>
-	                        </tr>
-	                    </tbody>
-	                </table>
-	            `;
-
-	            container.innerHTML = tableHTML;
-	        })
-	        .catch(err => {
-	            container.innerHTML = `<p style="color:red;">에러: ${err.message}</p>`;
-	            console.error("Fetch 실패:", err);
-	        });
-	}
-
-		
-		function animalManagement(){
-			fetch('')
-			.then(response => response.json())
-			.then(data)
-			.catch(err =>{
-				alert(err);
-			});
-		}
-	</script>
 </body>
 </html>
