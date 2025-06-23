@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<header>
+		<nav>
+			<ul>
+				<li><div onclick="regist()">등록</div></li>
+				<li><div onclick="correction()">수정</div></li>
+			</ul>
+		</nav>
+	</header>
+	<div id="main">
+		<h2>관리자용 페이지</h2>
+	</div>
+
+	<script>
+    function regist() {
+        const main = document.getElementById("main");
+        main.innerHTML = `
+            <label for="b_no">월 선택:</label>
+            <select id="b_no" name="b_no">
+                <option value="">-- 월 선택 --</option>
+                <option value="1">1월</option>
+    			<option value="2">2월</option>
+    			<option value="3">3월</option>
+    			<option value="4">4월</option>
+    			<option value="5">5월</option>
+    			<option value="6">6월</option>
+    			<option value="7">7월</option>
+    			<option value="8">8월</option>
+    			<option value="9">9월</option>
+    			<option value="10">10월</option>
+    			<option value="11">11월</option>
+    			<option value="12">12월</option>
+            </select>
+            <br>
+            <input type="text" id="b_name" placeholder="탄생석 제목"><br>
+            <input type="text" id="b_info" placeholder="탄생석 설명"><br>
+            <button onclick="insert()" type="button">등록하기</button>
+        `;
+    }
+
+    function insert() {
+        const b_no = document.getElementById("b_no").value;
+        const b_name = document.getElementById("b_name").value;
+        const b_info = document.getElementById("b_info").value;
+
+        
+        if (!b_no || !b_name || !b_info) {
+            alert("모든 항목을 입력해주세요.");
+            return;
+        }
+
+       
+        fetch('/insert', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ b_no, b_name, b_info })
+        })
+        .then(response => {
+        	console.log("응답 코드:", response.status);
+            if (!response.ok) throw new Error("서버 응답 실패");
+            return response.text();
+        })
+        .then(data => {
+            alert("등록 성공!");
+            console.log("서버 응답:", data);
+            
+        })
+        .catch(error => {
+            console.error("에러 발생:", error);
+            alert("등록 실패");
+        });
+    }
+    
+    
+    function correction() {
+        const main = document.getElementById("main");
+
+        main.innerHTML = `
+            <label for="b_no">월 선택:</label>
+            <select id="b_no" name="b_no">
+                <option value="">-- 월 선택 --</option>
+                ${[...Array(12)].map((_, i) => `<option value="${i + 1}">${i + 1}월</option>`).join('')}
+            </select>
+            <br><br>
+            <button onclick="fetchInfo()" type="button">조회하기</button>
+            <div id="result"></div>
+        `;
+    }
+
+    function fetchInfo() {
+        const b_no = document.getElementById("b_no").value;
+        if (!b_no) {
+            alert("월을 선택해주세요.");
+            return;
+        }
+
+        fetch(`/getInfo?b_no=${b_no}`)
+            .then(response => {
+                if (!response.ok) throw new Error("서버 응답 실패");
+                return response.json(); 
+            })
+            .then(data => {
+                const result = document.getElementById("result");
+                result.innerHTML = `
+                    <form id="editForm">
+                        <input type="hidden" id="b_no_hidden" value="${data.b_no}" />
+                        <table border="1" cellpadding="8" cellspacing="0">
+                            <tr>
+                                <th>월</th>
+                                <td>${data.b_no}월</td>
+                            </tr>
+                            <tr>
+                                <th>이름</th>
+                                <td><input type="text" id="b_name" value="${data.b_name}" /></td>
+                            </tr>
+                            <tr>
+                                <th>정보</th>
+                                <td><textarea id="b_info" rows="4" cols="50">${data.b_info}</textarea></td>
+                            </tr>
+                        </table>
+                        <br>
+                        <button type="button" onclick="saveInfo()">수정 저장</button>
+                    </form>
+                `;
+            })
+            .catch(error => {
+                console.error("에러 발생:", error);
+                alert("데이터를 가져오는 데 실패했습니다.");
+            });
+    }
+
+    function saveInfo() {
+        const b_no = parseInt(document.getElementById("b_no_hidden").value);
+        const b_name = document.getElementById("b_name").value.trim();
+        const b_info = document.getElementById("b_info").value.trim();
+
+        if (!b_name || !b_info) {
+            alert("모든 항목을 입력해주세요.");
+            return;
+        }
+
+        const payload = { b_no, b_name, b_info };
+
+        fetch('/insert', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        })
+        .then(response => {
+            if (!response.ok) throw new Error("수정 실패");
+            return response.text();
+        })
+        .then(data => {
+            alert("수정 완료!");
+            correction(); // 다시 초기화
+        })
+        .catch(error => {
+            console.error("수정 중 오류:", error);
+            alert("수정에 실패했습니다.");
+        });
+    }
+</script>
+
+
+</body>
+</html>

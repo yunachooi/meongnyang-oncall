@@ -66,10 +66,10 @@ input[type="text"], input[type="password"] {
 		<h2>로그인 페이지</h2>
 		<form action="/user/login" method="POST">
 			<label for="username">아이디</label>
-			<input type="text" id="username" name="username" placeholder="username">
+			<input type="text" id="username" name="username" placeholder="username" required>
 
 			<label for="password">비밀번호</label>
-			<input type="password" id="password" name="password" placeholder="password">
+			<input type="password" id="password" name="password" placeholder="password" required>
 			
 			<div class="box">
 				<input type="submit" value="로그인">
