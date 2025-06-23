@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	
+	<div class="container">
+		<h2>탄생석 찾기</h2>
+		<label for="month">월 선택:</label> <select id="month" name="month">
+			<option value="">-- 월 선택 --</option>
+			<option value="1">1월</option>
+			<option value="2">2월</option>
+			<option value="3">3월</option>
+			<option value="4">4월</option>
+			<option value="5">5월</option>
+			<option value="6">6월</option>
+			<option value="7">7월</option>
+			<option value="8">8월</option>
+			<option value="9">9월</option>
+			<option value="10">10월</option>
+			<option value="11">11월</option>
+			<option value="12">12월</option>
+		</select>
+		<br>
+		<button onclick="findBirthStone()" type="button">내 탄생석 찾기</button>
+	</div>
+	<div id="main"></div>
+	
+	<script>
+	function findBirthStone(){
+	    const month = document.getElementById("month").value;
+	    const main = document.getElementById("main");
+	    alert("입력한 값: " + month);
+
+	    fetch('/getInfo?b_no=' + month)
+	    .then(response => {
+	        if (!response.ok) throw new Error("조회 실패");
+	        return response.json();
+	    })
+	    .then(data => {
+	        main.innerHTML = `
+	            <h3>${data.b_name}</h3>
+	            <p>${data.b_info}</p>
+	            <img src="/images/${data.b_no}.jpg" alt="${data.b_name}" width="500px" height="500px" />
+	        `;
+	    })
+	    .catch(error => {
+	        console.error("조회 중 오류:", error);
+	        alert("조회에 실패했습니다.");
+	    });
+	}
+
+	</script>
+</body>
+</html>
