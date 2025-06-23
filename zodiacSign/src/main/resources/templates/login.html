@@ -2,20 +2,44 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>별자리 찾기</title>
+<title>관리자 로그인</title>
+<link rel="stylesheet" href="/css/login.css" />
 </head>
 <body>
-	<div class="container">
-		<div>
-			<h2>관리자 로그인</h2>
-			<div class="msg"></div>
-		</div>
-		<form action="login" method="post">
-			<input type="text" name="username" placeholder="Input username..."><br />
-			<input type="password" name="password" placeholder="Input password..."><br />
-			<input type="submit" value="로그인">
-		</form>
-	</div>
+  <div class="container">
+    <div>
+      <h2>관리자 로그인</h2>
+      <div class="msg"></div>
+    </div>
+    <form id="loginForm" action="login" method="post" onsubmit="return validateForm()">
+      <input type="text" name="username" id="username" placeholder="Input username..."><br />
+      <input type="password" name="password" id="password" placeholder="Input password..."><br />
+      <input type="submit" value="로그인">
+    </form>
+  </div>
 
+  <script>
+    function validateForm() {
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const msgDiv = document.querySelector('.msg');
+      msgDiv.textContent = '';
+      
+      if (username === '') {
+        msgDiv.textContent = '사용자 이름을 입력하세요.';
+        msgDiv.style.color = 'red';
+        return false; // 제출 막음
+      }
+      
+      if (password === '') {
+        msgDiv.textContent = '비밀번호를 입력하세요.';
+        msgDiv.style.color = 'red';
+        return false;
+      }
+
+      // 모두 통과 시
+      return true;
+    }
+  </script>
 </body>
 </html>

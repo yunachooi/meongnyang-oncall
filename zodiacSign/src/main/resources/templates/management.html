@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>별자리 찾기 - 관리자</title>
+   <link rel="stylesheet" href="/css/management.css" />
 </head>
 <body>
-  <div th:replace="menu :: mainHeader"></div>
+  <nav>
+    <h3>관리자 메뉴</h3>
+    <div th:replace="menu :: mainHeader"></div>
+  </nav>
 
   <div class="container">
     <div>
@@ -14,6 +18,8 @@
     <div class="msg" id="msgArea">
       <p th:if="${success}" style="color: green;">작업이 완료되었습니다.</p>
     </div>
+
+    <!-- 여기 inquiry, regist, modify 관련 스크립트는 이전에 작성한 그대로 쓰면 됨 -->
   </div>
 
   <script>

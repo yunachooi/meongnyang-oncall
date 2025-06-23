@@ -1,0 +1,90 @@
+@charset "UTF-8";
+
+	/* 전체 바디 스타일 */
+body {
+    font-family: 'Noto Sans KR', 'Malgun Gothic', Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+
+/* 컨테이너 박스 */
+.container {
+    max-width: 500px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 25px 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* 제목 */
+h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #444;
+}
+
+/* 폼 영역 */
+.find form {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* 라벨 */
+.find label {
+    font-weight: 600;
+    color: #555;
+}
+
+/* 셀렉트 박스 */
+.find select {
+    padding: 6px 12px;
+    border: 1.5px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.find select:focus {
+    border-color: #6a8de0;
+    outline: none;
+}
+
+/* 제출 버튼 */
+.find input[type="submit"] {
+    background-color: #6a8de0;
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.find input[type="submit"]:hover {
+    background-color: #5577cc;
+}
+
+/* 결과 영역 */
+#result {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #222;
+    min-height: 220px;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+}
+
+/* 결과 이미지 스타일 */
+#result img {
+    margin-bottom: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
