@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>탄생석 찾기</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
+	<div th:replace="nav :: mainHeader"></div>
 	
 	<div class="container">
 		<h2>탄생석 찾기</h2>
@@ -22,17 +24,15 @@
 			<option value="10">10월</option>
 			<option value="11">11월</option>
 			<option value="12">12월</option>
-		</select>
-		<br>
-		<button onclick="findBirthStone()" type="button">내 탄생석 찾기</button>
+		</select> <br>
+		<button onclick="findBirthStone()" type="button">나의 탄생석 찾기</button>
+		<div id="main"></div>
 	</div>
-	<div id="main"></div>
-	
+
 	<script>
 	function findBirthStone(){
 	    const month = document.getElementById("month").value;
 	    const main = document.getElementById("main");
-	    alert("입력한 값: " + month);
 
 	    fetch('/getInfo?b_no=' + month)
 	    .then(response => {

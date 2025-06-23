@@ -2,19 +2,22 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>탄생석 찾기</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-	<header>
-		<nav>
-			<ul>
-				<li><div onclick="regist()">등록</div></li>
-				<li><div onclick="correction()">수정</div></li>
-			</ul>
-		</nav>
-	</header>
-	<div id="main">
-		<h2>관리자용 페이지</h2>
+	<div class="container">
+		<header>
+			<nav>
+				<ul>
+					<li><div onclick="regist()">등록</div></li>
+					<li><div onclick="correction()">수정</div></li>
+				</ul>
+			</nav>
+		</header>
+			<h2>관리자용 페이지</h2>
+			<div id="main">
+		</div>
 	</div>
 
 	<script>
@@ -38,7 +41,9 @@
     			<option value="12">12월</option>
             </select>
             <br>
-            <input type="text" id="b_name" placeholder="탄생석 제목"><br>
+            <label>이름 :</label>
+            <input type="text" id="b_name" placeholder="탄생석 이름"><br>
+            <label>설명 :</label>
             <input type="text" id="b_info" placeholder="탄생석 설명"><br>
             <button onclick="insert()" type="button">등록하기</button>
         `;
