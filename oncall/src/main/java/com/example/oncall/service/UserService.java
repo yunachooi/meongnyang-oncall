@@ -1,16 +1,24 @@
 package com.example.oncall.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.oncall.dto.RequestRollDto;
 import com.example.oncall.dto.UserDto;
+import com.example.oncall.entity.RequestRoll;
 import com.example.oncall.entity.User;
+import com.example.oncall.repository.RequestRollRepository;
 import com.example.oncall.repository.UserRepository;
 
 @Service
 public class UserService {
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	RequestRollRepository requestRollRepository;
 	
 	private User convert(UserDto userDto) {
 		User user = new User();
@@ -23,6 +31,7 @@ public class UserService {
 
 		return user;
 	}
+	
 
 
 	public boolean loginCheck(UserDto userDto) {
@@ -40,5 +49,17 @@ public class UserService {
 			// 로깅 등 처리 가능
 			return false;
 		}
+	}
+	public Optional<User> getUserInfo(String username) {
+		
+		return userRepository.findById(username);
+	}
+	
+	public RequestRoll requestRoll(RequestRollDto rollDto) {
+		RequestRoll roll = new RequestRoll();
+		
+		roll.setUsername(rollDto.getUsername());
+		roll.setLisencenum(rollDto.getLisenceNum());
+		return requestRollRepository.save(roll);
 	}
 }

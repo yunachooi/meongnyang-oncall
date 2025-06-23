@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>멍냥온콜</title>
@@ -25,25 +25,64 @@
 		<div th:replace="header :: mainHeader"></div>
 		<!-- body -->
 		<div class="vet-card">
-			<a href="" onclick="userManagement()">회원정보관리</a> |
+			<a href="" onclick="loadUserData()">회원정보관리</a> |
 			<a href="" onclick="animalManagement()">반려동물관리</a>
-			
 		</div>
 		<div id="content"></div>
+		<div onclick="requestRoll()">수의사 신청하기</div>
+		<form action="/user/requestRoll" method="POST">
+			<input type="text" name="lisenceNum" placeholder="면허 번호 입력"><br>
+			<input type="submit" value="신청">
+		</form>
 	</div>
+	
 	<script>
+	function requestroll(){
 		const content = document.getElementById("content");
 		
-		function userMamagement(){
-			fetch('')
-			.then(response => response.json())
-			.then(data => {
-				
-			})
-			.catch(err =>{
-				alert(err);
-			});
-		}
+		
+	}	
+		
+	function loadUserData() {
+	    const container = document.getElementById("content");
+
+	    fetch('/user/getUserData')
+	        .then(response => {
+	            if (!response.ok) {
+	                return response.text().then(msg => { throw new Error(msg); });
+	            }
+	            return response.json();
+	        })
+	        .then(data => {
+	            console.log("받은 데이터:", data);
+
+	            // 테이블 생성
+	            const tableHTML = `
+	                <table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse;">
+	                    <thead>
+	                        <tr>
+	                            <th>아이디</th>
+	                            <th>이름</th>
+	                           
+	                        </tr>
+	                    </thead>
+	                    <tbody>
+	                        <tr>
+	                            <td>\${data.username}</td>
+	                            <td>\${data.name}</td>
+	                        </tr>
+	                    </tbody>
+	                </table>
+	            `;
+
+	            container.innerHTML = tableHTML;
+	        })
+	        .catch(err => {
+	            container.innerHTML = `<p style="color:red;">에러: ${err.message}</p>`;
+	            console.error("Fetch 실패:", err);
+	        });
+	}
+
 		
 		function animalManagement(){
 			fetch('')
