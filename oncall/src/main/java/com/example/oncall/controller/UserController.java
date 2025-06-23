@@ -20,6 +20,7 @@ import com.example.oncall.dto.RequestRollDto;
 import com.example.oncall.dto.UserDto;
 import com.example.oncall.entity.Question;
 import com.example.oncall.entity.User;
+import com.example.oncall.repository.UserRepository;
 import com.example.oncall.service.QuestionService;
 import com.example.oncall.service.UserService;
 
@@ -33,6 +34,8 @@ public class UserController {
 	private UserService userService;
 	@Autowired
 	private QuestionService questionService;
+	@Autowired
+	private UserRepository userRepository;
 
 	@PostMapping("/login")
 	public String login(UserDto userDto, Model model, HttpSession session) {
@@ -107,4 +110,19 @@ public class UserController {
 		return "mypage";
 		
 	}
+	
+	@PostMapping("/update")
+	public String updateUser(@ModelAttribute UserDto userDto) {
+	    User user = userRepository.findByUsername(userDto.getUsername());
+	    if (user != null) {
+	        user.setPassword(userDto.getPassword());
+	        user.setP_name(userDto.getP_name());
+	        user.setP_phone(userDto.getP_phone());
+	        user.setP_email(userDto.getP_email());
+	        userRepository.save(user);
+	    }
+	    return "redirect:/mypage";
+	}
+
+	
 }
