@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>별자리 찾기</title>
+</head>
+<body>
+    <div th:replace="nav :: mainHeader"></div>
+    
+    <div class="container">
+        <div>
+            <h2>별자리 찾기</h2>
+        </div>
+        <div class="find">
+            <form id="zodiacForm" onsubmit="event.preventDefault(); findZodiac();">
+                <label for="m">월</label>
+                <select name="month" id="m"></select>
+                <label for="d">일</label>
+                <select name="day" id="d"></select>
+                <input type="submit" value="별자리 찾기">
+            </form>
+            <div id="result" style="margin-top:20px;"></div>
+        </div>
+    </div>
+
+    <script>
+        const monthSelect = document.getElementById('m');
+        const daySelect = document.getElementById('d');
+        const resultDiv = document.getElementById('result');
+        
+        for (let i = 1; i <= 12; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.textContent = `${i}월`;
+            monthSelect.appendChild(option);
+        }
+
+        function getDaysInMonth(month) {
+            const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+            return daysInMonth[month - 1];
+        }
+
+        function updateDays(month) {
+            daySelect.innerHTML = "";
+            const days = getDaysInMonth(month);
+            for (let i = 1; i <= days; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = `${i}일`;
+                daySelect.appendChild(option);
+            }
+        }
+
+        updateDays(1);
+
+        monthSelect.addEventListener('change', function () {
+            updateDays(Number(this.value));
+        });
+
+        async function findZodiac() {
+            const month = Number(monthSelect.value);
+            const day = Number(daySelect.value);
+
+            try {
+                const response = await fetch('/user/find', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({ month, day })
+                });
+
+                if (!response.ok) {
+                    resultDiv.textContent = "별자리를 찾을 수 없습니다.";
+                    return;
+                }
+
+                const sign = await response.json();
+
+                if (!sign) {
+                    resultDiv.textContent = "해당 날짜에 맞는 별자리가 없습니다.";
+                    return;
+                }
+
+                resultDiv.innerHTML = `
+                    <img src="/images/${sign.s_no}.jpg" alt="${sign.s_name}" style="width:150px;height:150px;">
+                    <h3>${sign.s_name}</h3>
+                    <p>${sign.s_info}</p>
+                `;
+            } catch (error) {
+                console.error(error);
+                resultDiv.textContent = "오류가 발생했습니다.";
+            }
+        }
+    </script>
+</body>
+</html>
