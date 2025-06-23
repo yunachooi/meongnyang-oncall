@@ -90,7 +90,14 @@ button:hover {
 						</tr>
 					</tbody>
 				</table>
+
+				<input type="hidden" name="username" th:value="${session.loginInfo.username}" />
+				<input type="hidden" name="q_status" value="N" />
+				<input type="hidden" name="ani_no" value="1" />
+				<input type="hidden" name="vet_username" th:value="${vetUsername}" />
+
 			</form>
+
 		</div>
 	</div>
 </body>

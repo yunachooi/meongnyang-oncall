@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.oncall.dto.QnADto;
 import com.example.oncall.entity.Question;
 import com.example.oncall.entity.Veterinarian;
 import com.example.oncall.repository.QuestionRepository;
@@ -37,8 +36,7 @@ public class VeterinarianController {
             .orElseThrow(() -> new RuntimeException("해당 수의사가 존재하지 않습니다."));
 
         model.addAttribute("vet", vet);
-        List<Question>list = questionRepository.findAll();
-        
+        List<Question> list = questionRepository.findByVetUsername(username);        
         model.addAttribute("qna", list);
         
         return "counsel";

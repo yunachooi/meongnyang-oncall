@@ -3,30 +3,43 @@
 <head>
 <style>
 #login {
-  float: right;
+  text-align: right;
   font-weight: bold;
   font-size: 14px;
   margin-right: 20px;
   margin-top: 20px;
 }
+
+#login a {
+  text-decoration: none;
+  color: inherit;
+  margin: 0 5px;
+}
+
+#login a:hover {
+  text-decoration: underline;
+  color: orange;
+}
+
+#login span.separator {
+  margin: 0 5px;
+  color: #555;
+}
 </style>
 </head>
 <body>
 	<div th:fragment="mainHeader">
-		<!-- 로고 -->
 		<a th:href="@{/}">
 		<img src="/images/logo.png" class="logo" alt="멍냥온콜 로고" width="300" height="100"></a>
 
 		<div id="login">
-			<!-- 로그인 상태일 때 -->
 			<div th:if="${session.loginInfo != null}">
 				<span th:text="'[ ' + ${session.loginInfo.username} + ' ] 님 환영합니다.'"></span>
-				| <a th:href="@{/mypage}">마이페이지</a> | <a th:href="@{/user/logout}">로그아웃</a>
+				<span class="separator">|</span> <a th:href="@{/mypage}">마이페이지</a><span class="separator">|</span><a th:href="@{/user/logout}">로그아웃</a>
 			</div>
 
-			<!-- 비로그인 상태일 때 -->
 			<div th:if="${session.loginInfo == null}">
-				<a th:href="@{/login}">로그인</a> | <a th:href="@{/registForm}">회원가입</a>
+				<a th:href="@{/login}">로그인</a><span class="separator">|</span><a th:href="@{/registForm}">회원가입</a>
 			</div>
 		</div>
 	</div>

@@ -9,11 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import com.example.oncall.dto.QuestionDto;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.example.oncall.dto.RequestRollDto;
 import com.example.oncall.dto.UserDto;
 import com.example.oncall.entity.Question;
@@ -61,10 +63,19 @@ public class UserController {
     }
 	
 	@GetMapping("/write")
-	public String showWritePage(Model model) {
+	public String showWritePage(@RequestParam(value = "vetUsername", required = false) String vetUsername, Model model) {
 	    model.addAttribute("counsel", new Question());
+	    model.addAttribute("vetUsername", vetUsername);
 	    return "write";
 	}
+
+	@PostMapping("/register")
+	public String register(@ModelAttribute QuestionDto questionDto) {
+	    Question question = questionDto.toEntity();
+	    questionService.save(question);
+	    return "redirect:/";
+	}
+  
 	@GetMapping("/getUserData")
 	@ResponseBody
 	public ResponseEntity<?> getUserData(HttpSession session) {
@@ -81,6 +92,7 @@ public class UserController {
 	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자 정보를 찾을 수 없습니다.");
 	    }
 	}
+  
 	@PostMapping("/requestRoll")
 	public String requestRoll(RequestRollDto requestRollDto, HttpSession session){
 		UserDto user = new UserDto();
@@ -95,7 +107,4 @@ public class UserController {
 		return "mypage";
 		
 	}
-
-
-
 }
