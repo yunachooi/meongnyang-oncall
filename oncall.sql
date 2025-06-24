@@ -61,12 +61,16 @@ CREATE TABLE tbl_answer (
         REFERENCES tbl_question(q_no)
 );
 
+-- 시퀀스
+CREATE SEQUENCE tbl_question_seq START WITH 1 INCREMENT BY 1;
+
 -- 테이블 조회
 SELECT * FROM tbl_oncall_user;
 SELECT * FROM tbl_question;
 SELECT * FROM tbl_answer;
 SELECT * FROM tbl_veterinarian;
 SELECT * FROM tbl_animal;
+SELECT * FROM tbl_requestroll;
 
 -- 테이블 삭제
 DROP TABLE tbl_answer;
@@ -74,6 +78,7 @@ DROP TABLE tbl_question;
 DROP TABLE tbl_animal;
 DROP TABLE tbl_veterinarian;
 DROP TABLE tbl_oncall_user;
+DROP TABLE tbl_requestroll;
 
 COMMIT;
 
@@ -99,3 +104,6 @@ INSERT INTO tbl_veterinarian (username, v_hospital, v_area, v_major, v_status)
 VALUES ('vet4', '건강동물병원', '인천', '파충류', 'Y');
 INSERT INTO tbl_veterinarian (username, v_hospital, v_area, v_major, v_status) 
 VALUES ('vet5', '사랑동물병원', '광주', '강아지', 'N');
+
+INSERT INTO tbl_animal (ani_no, username, ani_name, ani_breed, ani_birth)
+VALUES (1, 'vet1', 'horang', 'bangle', '2024-11-23');
