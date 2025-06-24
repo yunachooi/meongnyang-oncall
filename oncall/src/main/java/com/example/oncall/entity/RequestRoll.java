@@ -19,7 +19,6 @@ public class RequestRoll {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int r_no;
 	private String username;
-	private String name;
 	private String lisencenum;
 	
 	

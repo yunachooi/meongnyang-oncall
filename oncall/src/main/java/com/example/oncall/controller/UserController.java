@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.example.oncall.dto.QuestionDto;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.example.oncall.dto.QuestionDto;
 import com.example.oncall.dto.RequestRollDto;
 import com.example.oncall.dto.UserDto;
 import com.example.oncall.entity.Question;
@@ -104,11 +104,10 @@ public class UserController {
 		requestRollDto.setUsername(user.getUsername());
 		
 		if(userService.requestRoll(requestRollDto) != null) {
-			return "index";
+			return "redirect:/";
 		}
 		
-		return "mypage";
-		
+		return "redirect:/mypage";
 	}
 	
 	@PostMapping("/update")
